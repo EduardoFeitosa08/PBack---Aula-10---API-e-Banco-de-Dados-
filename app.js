@@ -33,12 +33,24 @@ const controllerFilme = require('./controller/filme/controller_filme.js')
 //Retorna a lista de filmes
 app.get('/v1/locadora/filmes', cors(), async function(request, response){
     //Chama a função da controller para retornar todos os filmes
-    let filme = await controllerFilme.listarFilmes()
+    let filmes = await controllerFilme.listarFilmes()
+
+    response.status(filmes.status_code)
+    response.json(filmes)
+})
+
+//Retorna um filme filtrando pelo ID
+app.get('/v1/locadora/filmes/:id', cors(), async function(request, response){
+
+    //Recebe o ID enviado na requisição via parametro
+    let idFilme = request.params.id
+    
+    //Chama a função da controller para retornar todos os filmes
+    let filme = await controllerFilme.buscarFilmeId(idFilme)
 
     response.status(filme.status_code)
     response.json(filme)
 })
-
 
 app.listen(PORT, function(){
     console.log('API aguardando requisições!!!')
