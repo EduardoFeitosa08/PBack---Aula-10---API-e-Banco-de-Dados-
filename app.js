@@ -64,8 +64,33 @@ app.post('/v1/locadora/filmes', cors(), bodyParserJSON, async function(request, 
     let contentType = request.headers['content-type']
 
     //Chama a função da controller para inserir o filme, enviamos os dados do body e o content-type
-    let filme = await controllerFilme.InserirFilme(dadosBody, contentType)
+    let filme = await controllerFilme.inserirFilme(dadosBody, contentType)
 
+    response.status(filme.status_code)
+    response.json(filme)
+})
+
+app.put('/v1/locadora/filmes/:id', cors(), bodyParserJSON, async function(request, response){
+    //Recebe os dados do bodu
+    let dadosBody = request.body
+
+    //Recebe o id do filme encaminhado pela URL
+    let idFilme = request.params.id
+
+    //Recebe o content-type da requisição
+    let contentType = request.headers['content-type']
+
+    let filme = await controllerFilme.atualizarFilme(dadosBody, idFilme, contentType)
+
+    response.status(filme.status_code)
+    response.json(filme)
+
+})
+
+app.delete('/v1/locadora/filmes/:id', cors(), async function(request, response) {
+    let idFilme = request.params.id
+
+    let filme = await controllerFilme.excluirFilmes(idFilme)
     response.status(filme.status_code)
     response.json(filme)
 })
