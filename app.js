@@ -95,6 +95,66 @@ app.delete('/v1/locadora/filmes/:id', cors(), async function(request, response) 
     response.json(filme)
 })
 
+const controllerGenero = require('./controller/genero/controller_genero.js')
+
+//EndPoints da tb_genero
+app.get('/v1/locadora/generos', cors(), async function(request, response) {
+    //Executando a função de buscar generos e configurando a resposta
+    let genero = await controllerGenero.listarGeneros()
+    response.status(genero.status_code)
+    response.json(genero)
+})
+
+app.get('/v1/locadora/generos/:id', cors(), async function(request, response) {
+    //Recebendo o ID do Genero pela URL
+    let idGenero = request.params.id
+
+    //Executando a função de buscar genero com base no ID e configurando a resposta
+    let genero = await controllerGenero.buscarGeneroId(idGenero)
+    response.status(genero.status_code)
+    response.json(genero)
+})
+
+app.post('/v1/locadora/generos', cors(), bodyParserJSON, async function(request, response) {
+    //Recebe o objeto JSON pelo body da requisição
+    let dadosBody = request.body
+
+    //Recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //Executando a função de inserir um genero e configurando a resposta
+    let genero = await controllerGenero.inserirGenero(dadosBody, contentType)
+    console.log(genero)
+    response.status(genero.status_code)
+    response.json(genero)
+})
+
+app.put('/v1/locadora/generos/:id', cors(), bodyParserJSON, async function(request, response) {
+    //Recebe o objeto JSON pelo body da requisição
+    let dadosBody = request.body
+
+    //Recebendo o ID do Genero pela URL
+    let idGenero = request.params.id
+
+    //Recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //Executando a função de atualizar um genero e configurando a resposta
+    let genero = await controllerGenero.atualizarGenero(dadosBody, idGenero, contentType)
+    response.status(genero.status_code)
+    response.json(genero)
+})
+
+app.delete('/v1/locadora/generos/:id', cors(), async function(request, response) {
+    //Recebendo o ID do Genero pela URL
+    let idGenero = request.params.id
+
+    //Executando a função de excluir um genero e configurando a resposta
+    let genero = await controllerGenero.excluirGenero(idGenero)
+    response.status(genero.status_code)
+    response.json(genero)
+})
+
 app.listen(PORT, function(){
     console.log('API aguardando requisições!!!')
 })
