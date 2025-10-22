@@ -124,7 +124,6 @@ app.post('/v1/locadora/generos', cors(), bodyParserJSON, async function(request,
 
     //Executando a função de inserir um genero e configurando a resposta
     let genero = await controllerGenero.inserirGenero(dadosBody, contentType)
-    console.log(genero)
     response.status(genero.status_code)
     response.json(genero)
 })
@@ -153,6 +152,105 @@ app.delete('/v1/locadora/generos/:id', cors(), async function(request, response)
     let genero = await controllerGenero.excluirGenero(idGenero)
     response.status(genero.status_code)
     response.json(genero)
+})
+
+
+//ENDPOINTS DA TABELA CLASSIFICAÇÃO
+
+const controllerClassificacao = require('./controller/classificacao/controller_classificacao.js')
+
+app.get('/v1/locadora/classificacoes', cors(), async function(request, response) {
+    let classificacao = await controllerClassificacao.listarClassificacoes()
+    response.status(classificacao.status_code)
+    response.json(classificacao)
+})
+
+app.get('/v1/locadora/classificacoes/:id', cors(), async function(request, response) {
+    let idClassificacao = request.params.id
+    
+    let classificacao = await controllerClassificacao.buscarClassificacaoId(idClassificacao)
+    response.status(classificacao.status_code)
+    response.json(classificacao)
+})
+
+app.post('/v1/locadora/classificacoes', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+    
+    let contentType = request.headers['content-type']
+
+    let classificacao = await controllerClassificacao.inserirClassificacao(dadosBody, contentType)
+    response.status(classificacao.status_code)
+    response.json(classificacao)
+})
+
+app.put('/v1/locadora/classificacoes/:id', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+
+    let contentType = request.headers['content-type']
+    
+    let idClassificacao = request.params.id
+
+    let classificacao = await controllerClassificacao.atualizarClassificacao(dadosBody, idClassificacao, contentType)
+    response.status(classificacao.status_code)
+    response.json(classificacao)
+})
+
+app.delete('/v1/locadora/classificacoes/:id', cors(), async function(request, response) {
+    let idClassificacao = request.params.id
+    
+    let classificacao = await controllerClassificacao.excluirClassificacao(idClassificacao)
+    response.status(classificacao.status_code)
+    response.json(classificacao)
+})
+
+
+//ENDPOINTS DA TABELA ATOR
+
+const controllerAtor = require('./controller/ator/controller_ator.js')
+
+app.get('/v1/locadora/atores', cors(), async function(request, response) {
+    let ator = await controllerAtor.listarAtores()
+    response.status(ator.status_code)
+    response.json(ator)
+})
+
+app.get('/v1/locadora/atores/:id', cors(), async function(request, response) {
+    let idAtor = request.params.id
+    
+    let ator = await controllerAtor.buscarAtorId(idAtor)
+    response.status(ator.status_code)
+    response.json(ator)
+})
+
+app.post('/v1/locadora/atores', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+
+    let contentType = request.headers['content-type']
+
+    let ator = await controllerAtor.inserirAtor(dadosBody, contentType)
+    console.log(`Parou aqui na resposta e é ${ator}`)
+    response.status(ator.status_code)
+    response.json(ator)
+})
+
+app.put('/v1/locadora/atores/:id', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+    
+    let idAtor = request.params.id
+
+    let contentType = request.headers['content-type']
+
+    let ator = await controllerAtor.atualizarAtor(dadosBody, idAtor, contentType)
+    response.status(ator.status_code)
+    response.json(ator)
+})
+
+app.delete('/v1/locadora/atores/:id', cors(), async function(request, response) {
+    let idAtor = request.params.id
+
+    let ator = await controllerAtor.excluirAtor(idAtor)
+    response.status(ator.status_code)
+    response.json(ator)
 })
 
 app.listen(PORT, function(){

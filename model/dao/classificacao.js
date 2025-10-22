@@ -1,6 +1,6 @@
 /*********************************************************************************************
- * Objetivo: Arquivo responsável pela realização do CRUD de genero no Banco de Dados MySQL
- * Data: 21/10/2025
+ * Objetivo: Arquivo responsável pela realização do CRUD de classificacao no Banco de Dados MySQL
+ * Data: 22/10/2025
  * Autor: Eduardo Feitosa
  * Versão: 1.0
  **********************************************************************************************/
@@ -11,13 +11,13 @@ const { PrismaClient } = require('../../generated/prisma')
 //Cria um objeto do prisma client para manipular os scripts SQL
 const prisma = new PrismaClient()
 
-const getSelectAllGenre = async function() {
+const getSelectAllRating = async function() {
     try {
-        let sql = 'select * from tb_genero order by genero_id desc'
+        let sql = 'select * from tb_classificacao order by classificacao_id desc'
 
         let result = await prisma.$queryRawUnsafe(sql)
 
-        if(Array.isArray(result)){
+        if(result){
             return result
         }else{
             return false
@@ -27,13 +27,13 @@ const getSelectAllGenre = async function() {
     }
 }
 
-const getSelectByIdGenre = async function(id) {
+const getSelectByIdRating = async function(id) {
     try {
-        let sql = `select * from tb_genero where genero_id=${id}`
+        let sql = `select * from tb_classificacao where classificacao_id=${id}`
 
         let result = await prisma.$queryRawUnsafe(sql)
-
-        if(Array.isArray(result)){
+        
+        if(result){
             return result
         }else{
             return false
@@ -43,13 +43,13 @@ const getSelectByIdGenre = async function(id) {
     }
 }
 
-const getSelectLastIdGenre = async function() {
+const getSelectLastIdRating = async function() {
     try {
-        let sql = 'select genero_id from tb_genero order by genero_id desc limit 1'
-
+        let sql = 'select classificacao_id from tb_classificacao order by classificacao_id desc limit 1'
+    
         let result = await prisma.$queryRawUnsafe(sql)
 
-        if(Array.isArray(result)){
+        if(result){
             return result
         }else{
             return false
@@ -59,14 +59,15 @@ const getSelectLastIdGenre = async function() {
     }
 }
 
-const setInsertGenre = async function(genero) {
+const setInsertRating = async function(classificacao) {
     try {
-        let sql = `insert into tb_genero(nome) values ('${genero.nome}')`
+        let sql = `insert into tb_classificacao(nome, idade_minima) 
+                    values('${classificacao.nome}', ${classificacao.idade_minima})`
 
         let result = await prisma.$executeRawUnsafe(sql)
 
         if(result){
-            return true
+            return result
         }else{
             return false
         }
@@ -75,14 +76,14 @@ const setInsertGenre = async function(genero) {
     }
 }
 
-const setUpdateGenre = async function(genero) {
+const setUpdateRating = async function(classificacao) {
     try {
-        let sql = `update tb_genero set nome = '${genero.nome}' where genero_id = ${genero.id}`
+        let sql = `update tb_classificacao set nome='${classificacao.nome}', 
+        idade_minima=${classificacao.idade_minima} where classificacao_id=${classificacao.id}`
 
         let result = await prisma.$executeRawUnsafe(sql)
-
         if(result){
-            return true
+            return result
         }else{
             return false
         }
@@ -91,14 +92,14 @@ const setUpdateGenre = async function(genero) {
     }
 }
 
-const setDeleteGenre = async function(id) {
+const setDeleteRating = async function(id) {
     try {
-        let sql = `delete from tb_genero where genero_id=${id}`
+        let sql = `delete from tb_classificacao where classificacao_id=${id}`
 
         let result = await prisma.$executeRawUnsafe(sql)
 
         if(result){
-            return true
+            return result
         }else{
             return false
         }
@@ -108,10 +109,10 @@ const setDeleteGenre = async function(id) {
 }
 
 module.exports = {
-    getSelectAllGenre,
-    getSelectByIdGenre,
-    getSelectLastIdGenre,
-    setInsertGenre,
-    setUpdateGenre,
-    setDeleteGenre
+    getSelectAllRating,
+    getSelectByIdRating,
+    getSelectLastIdRating,
+    setInsertRating,
+    setUpdateRating,
+    setDeleteRating
 }
