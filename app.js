@@ -228,7 +228,6 @@ app.post('/v1/locadora/atores', cors(), bodyParserJSON, async function(request, 
     let contentType = request.headers['content-type']
 
     let ator = await controllerAtor.inserirAtor(dadosBody, contentType)
-    console.log(`Parou aqui na resposta e é ${ator}`)
     response.status(ator.status_code)
     response.json(ator)
 })
@@ -252,6 +251,58 @@ app.delete('/v1/locadora/atores/:id', cors(), async function(request, response) 
     response.status(ator.status_code)
     response.json(ator)
 })
+
+
+//ENDPOINTS DA TABELA DIRETOR
+
+const controllerDiretor = require('./controller/diretor/controller_diretor.js')
+
+app.get('/v1/locadora/diretores', cors(), async function(request, response) {
+    let diretor = await controllerDiretor.listarDiretores()
+    response.status(diretor.status_code)
+    response.json(diretor)
+})
+
+app.get('/v1/locadora/diretores/:id', cors(), async function(request, response) {
+    let idDiretor = request.params.id
+    
+    let diretor = await controllerDiretor.buscarDiretorId(idDiretor)
+    response.status(diretor.status_code)
+    response.json(diretor)
+})
+
+app.post('/v1/locadora/diretores', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+
+    let contentType = request.headers['content-type']
+
+    let diretor = await controllerDiretor.inserirDiretor(dadosBody, contentType)
+    response.status(diretor.status_code)
+    response.json(diretor)
+})
+
+app.put('/v1/locadora/diretores/:id', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+    
+    let idDiretor = request.params.id
+
+    let contentType = request.headers['content-type']
+
+    let diretor = await controllerDiretor.atualizarDiretor(dadosBody, idDiretor, contentType)
+    response.status(diretor.status_code)
+    response.json(diretor)
+})
+
+app.delete('/v1/locadora/diretores/:id', cors(), async function(request, response) {
+    let idDiretor = request.params.id
+
+    let diretor = await controllerDiretor.excluirDiretor(idDiretor)
+    response.status(diretor.status_code)
+    response.json(diretor)
+})
+
+
+
 
 app.listen(PORT, function(){
     console.log('API aguardando requisições!!!')

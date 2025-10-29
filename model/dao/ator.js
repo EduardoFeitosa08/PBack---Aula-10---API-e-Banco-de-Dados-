@@ -62,6 +62,10 @@ const getSelectLastIdActor = async function() {
 const setInsertActor = async function(ator) {
     try {
         
+        //Validando o atributo data_morte, onde se ele ser nulo enviará o script sem as aspas somente nesse atributo
+        //Para assim não ter conflito no tamanho da data
+        //Se ele não ser nulo enviará o script com as aspas naquele atributo
+
         let sql = ""
         if(ator.data_morte == null){
             sql = `insert into tb_ator(nome, genero, data_nascimento, data_morte, img_ator)
@@ -86,8 +90,15 @@ const setInsertActor = async function(ator) {
 
 const setUpdateActor = async function(ator) {
     try {
-        let sql = `update tb_ator set nome = ${ator.nome}, genero = ${ator.genero}, data_nascimento = ${ator.data_nascimento}, data_morte = ${ator.data_morte}, img_ator = ${ator.img}
-                    where ator_id = ${ator.id}`
+
+        let sql = ''
+        if(ator.data_morte == null){
+            sql = `update tb_ator set nome = '${ator.nome}', genero = '${ator.genero}', data_nascimento = '${ator.data_nascimento}', data_morte = ${ator.data_morte}, img_ator = '${ator.img}'
+                where ator_id = ${ator.id}`
+        }else{
+            sql = `update tb_ator set nome = '${ator.nome}', genero = '${ator.genero}', data_nascimento = '${ator.data_nascimento}', data_morte = '${ator.data_morte}', img_ator = '${ator.img}'
+                where ator_id = ${ator.id}`
+        }
 
         let result = await prisma.$executeRawUnsafe(sql)
 

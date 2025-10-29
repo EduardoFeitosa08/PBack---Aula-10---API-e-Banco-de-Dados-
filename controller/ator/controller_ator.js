@@ -24,7 +24,7 @@ const listarAtores = async function() {
                 MESSAGE.HEADER.status = MESSAGE.SUCCESS_REQUEST.status
                 MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_REQUEST.status_code
                 MESSAGE.HEADER.response.total_actors = result.length
-                MESSAGE.HEADER.response.films = result
+                MESSAGE.HEADER.response.actors = result
                 
                 return MESSAGE.HEADER //200
 
@@ -84,27 +84,21 @@ const inserirAtor = async function(ator, contentType) {
 
                 if(result){
 
-                    MESSAGE.HEADER.status = MESSAGE.SUCCESS_CREATED_ITEM.status
-                    MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_CREATED_ITEM.status_code
-                    MESSAGE.HEADER.message = MESSAGE.SUCCESS_CREATED_ITEM.message
-                    MESSAGE.HEADER.response = ator
+                    let lastIdAtor = await atorDAO.getSelectLastIdActor()
 
-                    return MESSAGE.HEADER
-                    // let lastIdAtor = await atorDAO.getSelectLastIdActor()
-
-                    // if(lastIdAtor){
-                    //     //Adiciona no JSON de ator o ID que foi gerado pelo BD
-                    //     ator.id = lastIdFilme
+                    if(lastIdAtor){
+                        //Adiciona no JSON de ator o ID que foi gerado pelo BD
+                        ator.id = lastIdAtor
                             
-                    //     MESSAGE.HEADER.status = MESSAGE.SUCCESS_CREATED_ITEM.status
-                    //     MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_CREATED_ITEM.status_code
-                    //     MESSAGE.HEADER.message = MESSAGE.SUCCESS_CREATED_ITEM.message
-                    //     MESSAGE.HEADER.response = ator
+                        MESSAGE.HEADER.status = MESSAGE.SUCCESS_CREATED_ITEM.status
+                        MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_CREATED_ITEM.status_code
+                        MESSAGE.HEADER.message = MESSAGE.SUCCESS_CREATED_ITEM.message
+                        MESSAGE.HEADER.response = ator
 
-                    //     return MESSAGE.HEADER
-                    // }else{
-                    //     return MESSAGE.ERROR_INTERNAL_SERVER_MODEL // 500
-                    // }
+                        return MESSAGE.HEADER
+                    }else{
+                        return MESSAGE.ERROR_INTERNAL_SERVER_MODEL // 500
+                    }
                 }else{
                     return MESSAGE.ERROR_INTERNAL_SERVER_MODEL //500
                 }
@@ -136,7 +130,7 @@ const atualizarAtor = async function(ator, id, contentType) {
                     //Adicionando o ID no JSON com os dados do ator
                     ator.id = parseInt(id)
 
-                    let result = await atorDAO.setInsertActor(ator)
+                    let result = await atorDAO.setUpdateActor(ator)
 
                     if(result){
                         MESSAGE.HEADER.status = MESSAGE.SUCCESS_UPDATED_ITEM.status
