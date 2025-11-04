@@ -45,7 +45,7 @@ const getSelectByIdPublisher = async function(id) {
 
 const getSelectLastIdPublisher = async function() {
     try {
-        let sql = 'select publicador_id from tb_ator order by publicador_id desc limit 1'
+        let sql = 'select publicador_id from tb_publicador order by publicador_id desc limit 1'
 
         let result = await prisma.$queryRawUnsafe(sql)
 
@@ -64,11 +64,11 @@ const setInsertPublisher = async function(publicador) {
         let sql = ''
         if(publicador.data_fundacao == null){
             sql = `insert into tb_publicador(nome, data_fundacao, is_ativa, logradouro, cidade, estado, pais)
-                    values('${publicador.nome}', '${publicador.data_fundacao}', '${publicador.is_ativa}', 
+                    values('${publicador.nome}', '${publicador.data_fundacao}', ${publicador.is_ativa}, 
                             '${publicador.logradouro}', '${publicador.cidade}', '${publicador.estado}', '${publicador.pais}')`
         }else{
             sql = `insert into tb_publicador(nome, data_fundacao, is_ativa, logradouro, cidade, estado, pais)
-                    values('${publicador.nome}', '${publicador.data_fundacao}', '${publicador.is_ativa}', 
+                    values('${publicador.nome}', '${publicador.data_fundacao}', ${publicador.is_ativa}, 
                         '${publicador.logradouro}', '${publicador.cidade}', '${publicador.estado}', '${publicador.pais}')`
         }
 
@@ -90,10 +90,12 @@ const setUpdatePublisher = async function(publicador) {
         let sql = ''
         if(publicador.data_fundacao == null){
             sql = `update tb_publicador set nome = '${publicador.nome}', data_fundacao = ${publicador.data_fundacao}, is_ativa = ${publicador.is_ativa}, 
-                logradouro = '${publicador.logradouro}', cidade = '${publicador.cidade}', estado = '${publicador.estado}', pais = '${publicador.pais}'`
+                logradouro = '${publicador.logradouro}', cidade = '${publicador.cidade}', estado = '${publicador.estado}', pais = '${publicador.pais}'
+                where publicador_id = ${publicador.id}`
         }else{
             sql = `update tb_publicador set nome = '${publicador.nome}', data_fundacao = '${publicador.data_fundacao}', is_ativa = ${publicador.is_ativa}, 
-            logradouro = '${publicador.logradouro}', cidade = '${publicador.cidade}', estado = '${publicador.estado}', pais = '${publicador.pais}'`
+            logradouro = '${publicador.logradouro}', cidade = '${publicador.cidade}', estado = '${publicador.estado}', pais = '${publicador.pais}'
+            where publicador_id = ${publicador.id}`
         }
 
         let result = await prisma.$executeRawUnsafe(sql)
