@@ -5,26 +5,26 @@
  * Versão: 2.0
  **********************************************************************************************/
 //Import do arquivo DAO para manipular o CRUD do Filme Genero no BD
-const filmeGeneroDAO = require('../../model/dao/filme_genero.js')
+const filmeAtorDAO = require('../../model/dao/filme_ator.js')
 
 //Import do arquivo que contem a padronização das mensagens
 const MESSAGE_DEFAULT = require('../modulo/config_messages.js')
 
-//Retorna uma lista de todos os filmes e generos
-const listarFilmesGeneros = async function () {
+//Retorna uma lista de todos os filmes e atores
+const listarFilmesAtores = async function () {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
     try {
-        //Chama a função do DAO para retornar a lista dos filmes generos do BD
-        let result = await filmeGeneroDAO.getSelectAllFilmsGenre()
+        //Chama a função do DAO para retornar a lista dos filmes atores do BD
+        let result = await filmeAtorDAO.getSelectAllFilmsActors()
 
         if (result) {
             if (result.length > 0) {
                 MESSAGE.HEADER.status = MESSAGE.SUCCESS_REQUEST.status
                 MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_REQUEST.status_code
-                MESSAGE.HEADER.response.total_film_genres = result.length
-                MESSAGE.HEADER.response.film_genres = result
+                MESSAGE.HEADER.response.total_film_actors = result.length
+                MESSAGE.HEADER.response.film_actors = result
 
                 return MESSAGE.HEADER //200
             } else {
@@ -39,7 +39,7 @@ const listarFilmesGeneros = async function () {
 }
 
 //Retorna um filme genero filtrando pelo ID
-const buscarFilmeGeneroId = async function (id) {
+const buscarFilmeAtorId = async function (id) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
@@ -72,7 +72,7 @@ const buscarFilmeGeneroId = async function (id) {
 }
 
 //Retorna os generos filtrando pelo ID do filme
-const listarGenerosFilmeId = async function (filmeId) {
+const listarAtoresFilmeId = async function (filmeId) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
@@ -80,13 +80,13 @@ const listarGenerosFilmeId = async function (filmeId) {
         //Validação de campo obrigatorio
         if (filmeId != '' && filmeId != null && filmeId != undefined && !isNaN(filmeId) && filmeId > 0) {
             //Chama a função para filtrar pelo ID
-            let result = await filmeGeneroDAO.getSelectGenresByFilmeId(filmeId)
+            let result = await filmeAtorDAO.getSelectActorsByFilmeId(filmeId)
 
             if (result) {
                 if (result.length > 0) {
                     MESSAGE.HEADER.status = MESSAGE.SUCCESS_REQUEST.status
                     MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_REQUEST.status_code
-                    MESSAGE.HEADER.response.genres = result
+                    MESSAGE.HEADER.response.actors = result
 
                     return MESSAGE.HEADER //200
                 } else {
@@ -105,7 +105,7 @@ const listarGenerosFilmeId = async function (filmeId) {
 }
 
 //Retorna os filmes filtrando pelo ID do genero
-const listarFilmesGeneroId = async function (generoId) {
+const listarFilmesAtorId = async function (generoId) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
@@ -137,31 +137,31 @@ const listarFilmesGeneroId = async function (generoId) {
     }
 }
 
-const inserirFilmeGenero = async function (filmeGenero, contentType) {
+const inserirFilmeAtor = async function (filmeAtor, contentType) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
     try {
         if (String(contentType).toUpperCase() === 'APPLICATION/JSON') {
             //Chama a função de validação dos dados de cadastro
-            let validarDados = await validarDadosFilmeGenero(filmeGenero)
+            let validarDados = await validarDadosFilmeAtor(filmeAtor)
 
             if (!validarDados) {
                 // Chama a função do DAO para inserir um novo filme
-                let result = await filmeGeneroDAO.setInsertFilmsGenres(filmeGenero)
+                let result = await filmeAtorDAO.setInsertFilmsActors(filmeAtor)
 
                 if (result) {
                     //Chama a função para receber o ID gerado no BD
-                    let lastIdFilmeGenero = await filmeGeneroDAO.getSelectLastIdFilmGenre()
+                    let lastIdFilmeAtor = await filmeAtorDAO.getSelectLastIdFilmActor()
 
-                    if (lastIdFilmeGenero) {
+                    if (lastIdFilmeAtor) {
                         //Adiciona no JSON de filme o ID que foi gerado pelo BD
-                        filmeGenero.id = lastIdFilmeGenero
+                        filmeAtor.id = lastIdFilmeAtor
 
                         MESSAGE.HEADER.status = MESSAGE.SUCCESS_CREATED_ITEM.status
                         MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_CREATED_ITEM.status_code
                         MESSAGE.HEADER.message = MESSAGE.SUCCESS_CREATED_ITEM.message
-                        MESSAGE.HEADER.response = filmeGenero
+                        MESSAGE.HEADER.response = filmeAtor
 
                         return MESSAGE.HEADER //201
                     } else {
@@ -182,7 +182,7 @@ const inserirFilmeGenero = async function (filmeGenero, contentType) {
     }
 }
 
-const atualizarFilmeGenero = async function (filmeGenero, id, contentType) {
+const atualizarFilmeAtor = async function (filmeGenero, id, contentType) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
@@ -225,7 +225,7 @@ const atualizarFilmeGenero = async function (filmeGenero, id, contentType) {
     }
 }
 
-const excluirFilmeGeneroByFilmeId = async function (filmeId) {
+const excluirFilmeAtorByFilmeId = async function (filmeId) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
@@ -253,7 +253,7 @@ const excluirFilmeGeneroByFilmeId = async function (filmeId) {
     }
 }
 
-const excluirFilmeGenero = async function (id) {
+const excluirFilmeAtor = async function (id) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
@@ -282,15 +282,15 @@ const excluirFilmeGenero = async function (id) {
 }
 
 //Validação dos dados de cadastro do Filme
-const validarDadosFilmeGenero = async function (filmeGenero) {
+const validarDadosFilmeAtor = async function (filmeAtor) {
 
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
-    if (filmeGenero.filme_id == '' || filmeGenero.filme_id == null || filmeGenero.filme_id == undefined || isNaN(filmeGenero.filme_id) || filmeGenero.filme_id <= 0) {
+    if (filmeAtor.filme_id == '' || filmeAtor.filme_id == null || filmeAtor.filme_id == undefined || isNaN(filmeAtor.filme_id) || filmeAtor.filme_id <= 0) {
         MESSAGE.ERROR_REQUIRED_FIELDS.invalid_field = `Atributo [FILME_ID] invalido`
         return MESSAGE.ERROR_REQUIRED_FIELDS //400
 
-    } else if (filmeGenero.genero_id == '' || filmeGenero.genero_id == null || filmeGenero.genero_id == undefined || isNaN(filmeGenero.genero_id) || filmeGenero.genero_id <= 0) {
+    } else if (filmeAtor.ator_id == '' || filmeAtor.ator_id == null || filmeAtor.ator_id == undefined || isNaN(filmeAtor.ator_id) || filmeAtor.ator_id <= 0) {
         MESSAGE.ERROR_REQUIRED_FIELDS.invalid_field = `Atributo [GENERO_ID] invalido`
         return MESSAGE.ERROR_REQUIRED_FIELDS //400
 
@@ -303,12 +303,12 @@ const validarDadosFilmeGenero = async function (filmeGenero) {
 
 
 module.exports = {
-    listarFilmesGeneros,
-    buscarFilmeGeneroId,
-    listarFilmesGeneroId,
-    listarGenerosFilmeId,
-    inserirFilmeGenero,
-    atualizarFilmeGenero,
-    excluirFilmeGeneroByFilmeId,
-    excluirFilmeGenero
+    listarFilmesAtores,
+    buscarFilmeAtorId,
+    listarFilmesAtorId,
+    listarAtoresFilmeId,
+    inserirFilmeAtor,
+    atualizarFilmeAtor,
+    excluirFilmeAtorByFilmeId,
+    excluirFilmeAtor
 }

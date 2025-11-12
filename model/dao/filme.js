@@ -116,8 +116,8 @@ const getSelectLastIdFilm = async function(){
 //Insere um filme no banco de dados
 const setInsertFilms = async function(filme){
     try{
-        let sql = `insert into tb_filme(nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa) 
-        values ('${filme.nome}', '${filme.sinopse}', '${filme.data_lancamento}', '${filme.duracao}', '${filme.orcamento}', '${filme.trailer}', '${filme.capa}')`
+        let sql = `insert into tb_filme(nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, classificacao_id, diretor_id) 
+        values ('${filme.nome}', '${filme.sinopse}', '${filme.data_lancamento}', '${filme.duracao}', '${filme.orcamento}', '${filme.trailer}', '${filme.capa}', ${filme.classificacao_id}, ${filme.diretor_id})`
 
         // $executeRawUnsafe() -> Permite apenas executar scripts SQL que não tem retorno de dados (INSERT, UPDATE, DELETE)
         let result = await prisma.$executeRawUnsafe(sql)
@@ -143,7 +143,9 @@ const setUpdateFilms = async function(filme){
                         duracao = '${filme.duracao}', 
                         orcamento = '${filme.orcamento}', 
                         trailer = '${filme.trailer}', 
-                        capa = '${filme.capa}'
+                        capa = '${filme.capa}',
+                        classificacao_id = ${filme.classificacao_id},
+                        diretor_id = ${filme.diretor_id}
                     where id = ${filme.id}`
 
         // $executeRawUnsafe() -> Permite apenas executar scripts SQL que não tem retorno de dados (INSERT, UPDATE, DELETE)
