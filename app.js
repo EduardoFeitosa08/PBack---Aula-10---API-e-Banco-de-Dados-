@@ -9,8 +9,26 @@
 const express = require('express')
 const cors = require('cors')
 
+//Import das bibliotecas para o Swagger
+const swaggerJsdoc  = require('swagger-jsdoc');
+const swaggerUi     = require('swagger-ui-express');
+
+//Configuração de Caminho e dados da API para o Swagger
+const options = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Projeto do SENAI Jandira - Eduardo Feitosa - Locadora de Filmes',
+            version: '1.0.0',
+            contact:{email: 'eduardo.edubatista008@gmail.com'}
+        },
+    },
+    apis: ['./doc/documentacao.yaml']
+};
+const specs = swaggerJsdoc(options);
+
 //Cria o objeto app para criar a API
-const PORT = process.PORT || 8060
+const PORT = process.PORT || 8080
 
 //Porta
 const app = express()
@@ -49,6 +67,12 @@ app.use('/v1/locadora/diretores', diretorRoutes)
 
 //Confugurando as rotas de genero
 app.use('/v1/locadora/publicadores', publicadorRoutes)
+
+
+//Rota para a Documentação Swagger
+// 2. Middleware para servir a documentação
+app.use('/v1/locadora/help', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }) // Habilita a interface interativa
+  );
 
 app.listen(PORT, function(){
     console.log('API aguardando requisições!!!')

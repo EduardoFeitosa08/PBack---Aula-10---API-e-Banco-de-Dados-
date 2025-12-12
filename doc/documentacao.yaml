@@ -1,0 +1,840 @@
+openapi: 3.0.3
+info:
+  title: Projeto do SENAI Jandira - Eduardo Feitosa - Locadora de Filmes
+  description: |-
+   API destinada a controle de filmes, atores, diretores, generos, classificações indicativas e publicadores.
+  contact:
+    email: eduardo.edubatista008@gmail.com
+  version: 1.0.0
+externalDocs:
+  description: GitHub profile from the developer
+  url: https://github.com/EduardoFeitosa08
+servers:
+  - url: http://
+paths:
+  /v1/locadora/filmes:
+    post:
+      tags:
+        - Filmes
+      summary: Adiciona um novo Filme
+      description: Adiciona um novo Filme
+      requestBody:
+        description: JSON contendo os dados do novo filme a ser inserido no sistema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filme'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+    get:
+      tags:
+        - Filmes
+      summary: Lista todos os Filmes
+      description: Listagem de todos os Filmes registrados no sistema
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'  
+                
+                          
+           
+        '404':
+          description: Not Found
+  /v1/locadora/filmes/{id}:
+    get:
+      tags:
+        - Filmes
+      summary: Busca um Filme pelo ID
+      description: Retorna um Filme pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of film to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Film not found
+    put:
+      tags:
+        - Filmes
+      summary: Update an existing Film
+      description: Update an existing Film by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Film to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent Film in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filme'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Film not found
+       
+    delete:
+      tags:
+        - Filmes
+      summary: Delete Filme
+      description: Excluir um Filme
+      parameters:
+        - name: id
+          in: path
+          description: ID of Film to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Film not found
+  
+  /v1/locadora/generos:
+    post:
+      tags:
+        - Generos
+      summary: Adiciona um novo Genero
+      description: Adiciona um novo Genero
+      requestBody:
+        description: JSON contendo os dados do novo Genero a ser inserido no sistema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+    get:
+      tags:
+        - Generos
+      summary: Lista todos os Generos
+      description: Listagem de todos os Generos registrados no sistema
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'  
+                
+                          
+           
+        '404':
+          description: Not Found
+  /v1/locadora/generos/{id}:
+    get:
+      tags:
+        - Generos
+      summary: Busca um Genero pelo ID
+      description: Retorna um Genero pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of genre to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Genre not found
+    put:
+      tags:
+        - Generos
+      summary: Update an existing Genre
+      description: Update an existing Genre by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Genre to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent Genre in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Genre not found
+       
+    delete:
+      tags:
+        - Generos
+      summary: Delete Genero
+      description: Excluir um Genero
+      parameters:
+        - name: id
+          in: path
+          description: ID of Genre to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Genre not found
+          
+  /v1/locadora/classificacoes:
+    post:
+      tags:
+        - Classificações
+      summary: Adiciona uma nova Classificação
+      description: Adiciona uma nova Classificação
+      requestBody:
+        description: JSON contendo os dados da nova Classificação a ser inserido no sistema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Classificacao'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+    get:
+      tags:
+        - Classificações
+      summary: Lista todas as Classificações
+      description: Listagem de todos os Classificações registrados no sistema
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'  
+                
+                          
+           
+        '404':
+          description: Not Found
+  /v1/locadora/classificacoes/{id}:
+    get:
+      tags:
+        - Classificações
+      summary: Busca um Classificação pelo ID
+      description: Retorna um Classificação pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of Rating to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Rating not found
+    put:
+      tags:
+        - Classificações
+      summary: Update an existing Rating
+      description: Update an existing Rating by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Rating to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent Rating in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Classificacao'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Rating not found
+       
+    delete:
+      tags:
+        - Classificações
+      summary: Delete Classificação
+      description: Excluir um Classificação
+      parameters:
+        - name: id
+          in: path
+          description: ID of Rating to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Rating not found
+          
+  
+  /v1/locadora/atores:
+    post:
+      tags:
+        - Atores
+      summary: Adiciona um novo Ator
+      description: Adiciona um novo Ator
+      requestBody:
+        description: JSON contendo os dados da nova Ator a ser inserido no sistema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ator'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+    get:
+      tags:
+        - Atores
+      summary: Lista todos os Atores
+      description: Listagem de todos os Atores registrados no sistema
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'  
+                
+                          
+           
+        '404':
+          description: Not Found
+  /v1/locadora/atores/{id}:
+    get:
+      tags:
+        - Atores
+      summary: Busca um Ator pelo ID
+      description: Retorna um Ator pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of Actor to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Actor not found
+    put:
+      tags:
+        - Atores
+      summary: Update an existing Actor
+      description: Update an existing Actor by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Actor to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent Actor in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ator'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Actor not found
+       
+    delete:
+      tags:
+        - Atores
+      summary: Delete Ator
+      description: Excluir um Ator
+      parameters:
+        - name: id
+          in: path
+          description: ID of Actor to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Actor not found
+  
+  /v1/locadora/diretores:
+    post:
+      tags:
+        - Diretores
+      summary: Adiciona um novo Diretor
+      description: Adiciona um novo Diretor
+      requestBody:
+        description: JSON contendo os dados da nova Diretor a ser inserido no sistema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diretor'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+    get:
+      tags:
+        - Diretores
+      summary: Lista todos os Diretores
+      description: Listagem de todos os Diretores registrados no sistema
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'  
+                
+                          
+           
+        '404':
+          description: Not Found
+  /v1/locadora/diretores/{id}:
+    get:
+      tags:
+        - Diretores
+      summary: Busca um Diretor pelo ID
+      description: Retorna um Diretor pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of Director to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Director not found
+    put:
+      tags:
+        - Diretores
+      summary: Update an existing Director
+      description: Update an existing Director by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Director to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent Director in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diretor'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Director not found
+       
+    delete:
+      tags:
+        - Diretores
+      summary: Delete Diretor
+      description: Excluir um Diretor
+      parameters:
+        - name: id
+          in: path
+          description: ID of Director to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Director not found
+          
+  /v1/locadora/publicadores:
+    post:
+      tags:
+        - Publicadores
+      summary: Adiciona um novo Publicador
+      description: Adiciona um novo Publicador
+      requestBody:
+        description: JSON contendo os dados da nova Publicador a ser inserido no sistema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publicador'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+    get:
+      tags:
+        - Publicadores
+      summary: Lista todos os Publicadores
+      description: Listagem de todos os Publicadores registrados no sistema
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'  
+                
+                          
+           
+        '404':
+          description: Not Found
+  /v1/locadora/publicadores/{id}:
+    get:
+      tags:
+        - Publicadores
+      summary: Busca um Publicador pelo ID
+      description: Retorna um Publicador pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of Publisher to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resposta'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Publisher not found
+    put:
+      tags:
+        - Publicadores
+      summary: Update an existing Publisher
+      description: Update an existing Publisher by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Publisher to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent Publisher in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publicador'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Publisher not found
+       
+    delete:
+      tags:
+        - Publicadores
+      summary: Delete Publicador
+      description: Excluir um Publicador
+      parameters:
+        - name: id
+          in: path
+          description: ID of Publisher to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Publisher not found
+components:
+  schemas:
+    Resposta:
+      required:
+        - status
+        - status_code
+      type: object
+      properties:
+        status:
+          type: boolean
+        status_code:
+          type: integer
+        development:
+          type: string
+        api_description:
+          type: string
+        version:
+          type: string
+        request_date:
+          type: string
+        response:
+          type: object
+        message:
+          type: string
+          
+    Filme:
+      required:
+        - nome
+        - sinopse
+        - data_lancamento
+        - duracao
+        - orcamento
+        - trailer
+        - capa
+      type: object
+      properties:
+        nome:
+          type: string
+        sinopse:
+          type: string
+        data_lancamento:
+          type: string
+        duracao:
+          type: string
+        orcamento:
+          type: number
+        trailer:
+          type: string
+        capa:
+          type: string
+    
+    Genero:
+      required:
+        - nome
+      type: object
+      properties:
+        nome:
+          type: string
+          
+    Classificacao:
+      required:
+        - nome
+        - idade_minima
+      type: object
+      properties:
+        nome:
+          type: string
+        idade_minima:
+          type: integer
+          
+    Ator:
+      required:
+        - nome
+        - genero
+        - data_nascimento
+        - data_morte
+        - img
+      type: object
+      properties:
+        nome:
+          type: string
+        genero:
+          type: string
+        data_nascimento:
+          type: string
+        data_morte:
+          type: string
+        img:
+          type: string
+    
+    Diretor:
+      required:
+        - nome
+        - genero
+        - data_nascimento
+        - data_morte
+        - img
+      type: object
+      properties:
+        nome:
+          type: string
+        genero:
+          type: string
+        data_nascimento:
+          type: string
+        data_morte:
+          type: string
+        img:
+          type: string
+          
+    Publicador:
+      required:
+        - nome
+        - is_ativa
+        - logradouro
+        - cidade
+        - estado
+        - pais
+      type: object
+      properties:
+        nome:
+          type: string
+        data_fundacao:
+          type: string
+        is_ativa:
+          type: boolean
+        logradouro:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        pais:
+          type: string
+  requestBodies:
+    Filme:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Filme'
+    Genero:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Genero'
+    Classificacao:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Classificacao'
+    Ator:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Ator'
+    Diretor:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Diretor'
+    Publicador:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Publicador'
+            
