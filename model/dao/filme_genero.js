@@ -49,10 +49,10 @@ const getSelectGenresByFilmeId = async function(filmeId) {
         let sql = `select tb_genero.genero_id, tb_genero.nome 
                         from tb_filme 
                             inner join tb_filme_genero 
-                                on tb_filme.id = tb_filme_genero.filme_id 
+                                on tb_filme.filme_id = tb_filme_genero.filme_id 
                             inner join tb_genero 
                                 on tb_genero.genero_id = tb_filme_genero.genero_id 
-                        where tb_filme.id=${filmeId}`
+                        where tb_filme.filme_id=${filmeId}`
 
         let result = await prisma.$queryRawUnsafe(sql)
 
@@ -62,6 +62,7 @@ const getSelectGenresByFilmeId = async function(filmeId) {
             return false
         }
     } catch (error) {
+        console.log(error)
         return false
     }
 }
@@ -72,7 +73,7 @@ const getSelectFilmsByGeneroId = async function(generoId) {
         let sql = `select tb_filme.id, tb_filme.nome 
                         from tb_filme 
                             inner join tb_filme_genero 
-                                on tb_filme.id = tb_filme_genero.filme_id 
+                                on tb_filme.filme_id = tb_filme_genero.filme_id 
                             inner join tb_genero 
                                 on tb_genero.genero_id = tb_filme_genero.genero_id 
                         where tb_genero.genero_id=${generoId}`
@@ -117,6 +118,7 @@ const setInsertFilmsGenres = async function(filmeGenero) {
             return false
         }
     } catch (error) {
+        console.log(error)
         return false
     }
 }

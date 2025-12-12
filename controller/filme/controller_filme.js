@@ -13,6 +13,9 @@ const controllerFilmeGenero = require('./controller_filme_genero.js')
 //Import da controller filmeAtor (tabela de relação)
 const controllerFilmeAtor = require('./controller_filme_ator.js')
 
+//Import da controller filmeAtor (tabela de relação)
+const controllerFilmePublicador = require('./controller_filme_publicador.js')
+
 //Import do arquivo que padroniza todas as mensagens
 const MESSAGE_DEFAULT = require('../modulo/config_messages.js')
 
@@ -158,8 +161,21 @@ const inserirFilme = async function (filme, contentType) {
                             }
                         }
 
+                        for (publicador of filme.publicador) {
+                            let filmePublicador = {
+                                filme_id: lastIdFilme,
+                                publicador_id: publicador.publicador_id
+                            }
+
+                            let resultFilmePublicador = await controllerFilmePublicador.inserirFilmePublicador(filmePublicador, contentType)
+
+                            if(resultFilmePublicador.status_code != 201){
+                                return MESSAGE.ERROR_RELATION_TABLE //200, porém com problemas na tabela de relação
+                            }
+                        }
+
                         //Adiciona no JSON de filme o ID que foi gerado pelo BD
-                        filme.id = lastIdFilme
+                        filme.filme_id = lastIdFilme
 
                         MESSAGE.HEADER.status = MESSAGE.SUCCESS_CREATED_ITEM.status
                         MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_CREATED_ITEM.status_code
@@ -177,6 +193,7 @@ const inserirFilme = async function (filme, contentType) {
                         let resultGenerosFilme = await controllerFilmeGenero.listarGenerosFilmeId(lastIdFilme)
 
                         let resultAtoresFilme = await controllerFilmeAtor.listarAtoresFilmeId(lastIdFilme)
+                        
 
                         //Adiciona novamento o atributo genero com todas as informações do genero
                         filme.genero = resultGenerosFilme.response.genres

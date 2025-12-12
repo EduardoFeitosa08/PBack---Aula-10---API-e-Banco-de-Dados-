@@ -49,10 +49,10 @@ const getSelectActorsByFilmeId = async function(filmeId) {
         let sql = `select tb_ator.ator_id, tb_ator.nome 
                         from tb_filme 
                             inner join tb_filme_ator 
-                                on tb_filme.id = tb_filme_ator.filme_id 
+                                on tb_filme.filme_id = tb_filme_ator.filme_id 
                             inner join tb_ator
                                 on tb_ator.ator_id = tb_filme_ator.ator_id 
-                        where tb_filme.id=${filmeId}`
+                        where tb_filme.filme_id=${filmeId}`
 
         let result = await prisma.$queryRawUnsafe(sql)
 
@@ -62,6 +62,7 @@ const getSelectActorsByFilmeId = async function(filmeId) {
             return false
         }
     } catch (error) {
+        console.log(error)
         return false
     }
 }
@@ -72,7 +73,7 @@ const getSelectFilmsByActorId = async function(atorId) {
         let sql = `select tb_filme.id, tb_filme.nome 
                         from tb_filme 
                             inner join tb_filme_ator 
-                                on tb_filme.id = tb_filme_ator.filme_id 
+                                on tb_filme.filme_id = tb_filme_ator.filme_id 
                             inner join tb_ator 
                                 on tb_ator.ator_id = tb_filme_ator.ator_id 
                         where tb_ator.ator_id=${atorId}`
@@ -117,6 +118,7 @@ const setInsertFilmsActors = async function(filmeAtor) {
             return false
         }
     } catch (error) {
+        console.log(error)
         return false
     }
 }

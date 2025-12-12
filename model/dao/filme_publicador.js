@@ -170,13 +170,13 @@ const setDeleteFilmsPublishers = async function(id) {
 }
 
 module.exports = {
-    getSelectAllFilmsActors,
-    getSelectActorsByFilmeId,
-    getSelectByIdFilmActors,
-    getSelectFilmsByActorId,
-    getSelectLastIdFilmActor,
-    setInsertFilmsActors,
-    setUpdateFilmsActors,
-    setDeleteFilmsActorsByFilmeId,
-    setDeleteFilmsActors
+    getSelectAllFilmsPublishers,
+    getSelectByIdFilmPublishers,
+    getSelectFilmsByPublisherId,
+    getSelectLastIdFilmPublisher,
+    getSelectPublishersByFilmeId,
+    setInsertFilmsPublishers,
+    setUpdateFilmsPublishers,
+    setDeleteFilmsPublishers,
+    setDeleteFilmsPublishersByFilmeId
 }
